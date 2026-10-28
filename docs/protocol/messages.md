@@ -30,6 +30,8 @@ Tin cậy: `từ-mã` = đọc được rõ từ mã và/hoặc chuỗi log củ
 | -28 sub 4 | S→C | 4 phiên bản dữ liệu: data, map, skill, item | byte×4, byte bỏ, byte n, n×long | từ-mã |
 | -28 sub 6/7/8 | C→S | xin bảng map / skill / item | không | từ-mã |
 | -28 sub 6/7/8 | S→C | trả bảng map / skill / item | cả khối byte (client lưu nguyên) | từ-mã |
+| -28 sub 10 | C→S | xin lưới ô lát của map (khi không có trong `/mymap/`) | byte mapId | từ-mã |
+| -28 sub 10 | S→C | trả lưới ô lát, rồi thân giống `-24` | xem `map.md` | từ-mã |
 | -87 | C→S | xin bảng dữ liệu chung | không | từ-mã |
 | -87 | S→C | trả bảng dữ liệu chung (log `GET UPDATE_DATA`) | khối byte | từ-mã |
 | -28 sub 13 | C→S | báo đã tải xong dữ liệu | không | đoán |
@@ -39,11 +41,11 @@ Tin cậy: `từ-mã` = đọc được rõ từ mã và/hoặc chuỗi log củ
 
 | Mã | Hướng | Ý nghĩa | Trường | Tin cậy |
 |---|---|---|---|---|
-| -24 | S→C | thông tin map (log `MAP_INFO`) | ubyte `mapId`, byte, byte, byte, byte, UTF `tênMap`, byte, rồi `cj_0.i` đọc nội dung map (ô lát, cổng, quái, NPC; **chưa phân tích**), byte cuối (bọc `try`) | từ-mã |
+| -24 | S→C | thông tin map (log `MAP_INFO`) | đầu gói + thân: xem `map.md`; ô lát **không** nằm trong gói | từ-mã |
 | -23 | C→S | đổi map qua cổng dưới chân (không dữ liệu) | không | từ-mã |
 | -7 | C→S | mình di chuyển | byte cờ (1 nếu `aw.f(x/U,y/U)==0`, ngược lại 0; ý nghĩa cờ chưa rõ), short x, short y (chỉ gửi khi y đổi) | từ-mã |
 | -7 | S→C | người chơi khác di chuyển | int id, short x, short y | từ-mã |
-| -5 | S→C | người chơi khác xuất hiện trong map | int id, int loại, rồi `cj_0.a(ce, cN)` đọc tiếp (ngoại hình...; **chưa phân tích**) | từ-mã |
+| -5 | S→C | người chơi khác xuất hiện trong map | xem `map.md` | từ-mã (luồng CFR có `goto`, cần bắt gói) |
 | -6 | S→C | người chơi khác rời map (log `PLAYER REMOVED`) | int id | từ-mã |
 | 18 | S→C | cập nhật vị trí + HP nhiều người chơi | byte n; n×(int id, short x, short y, long hp) | từ-mã |
 | -8 | S→C | người chơi khác đổi vị trí/trạng thái (đặt lại vị trí) | int id, byte, short, short | đoán |
@@ -94,7 +96,7 @@ Chưa gán ý nghĩa: các mã còn lại trong bảng bên dưới (ví dụ -1
 
 ## Gói `-30` sub 0: nhân vật của mình (`cj_0.j`)
 
-Thứ tự đọc (sau byte sub): int `id`, byte, byte `ht` (chưa rõ, dùng làm chỉ số bảng `cu_0.b.h`; có thể là hành tinh), short `đầu`, UTF `tên`, byte, byte, long `sức mạnh?`, short, short, byte (chỉ số `cu_0.a[...]`, có thể là loại/phái), byte `n` rồi `n` short (danh sách skill/phần thân), long, int, int, byte `nTrangBị` rồi mỗi mục: short mã vật phẩm (`-1` = trống), int số lượng, 2 UTF, ubyte `nOption` rồi mỗi option đọc bằng `cj_0.a(cN)`; tương tự cho túi (`a[]`) và rương (`b[]`); sau đó short `m` rồi `m` cặp short, 3 short, byte, int (giờ server, giây), byte; rồi client **gửi lại một gói** (mã `dN[80]`, chưa tính) mang `ht`. Cuối cùng short, byte, short (bọc `try`, có thể thiếu).
+Thứ tự đọc (sau byte sub): int `id`, byte, byte `ht` (chủng tộc, theo log `chung toc` của client), short `đầu`, UTF `tên`, byte, byte, long `sức mạnh?`, short, short, byte (chỉ số `cu_0.a[...]`, có thể là loại/phái), byte `n` rồi `n` short (danh sách skill/phần thân), long, int, int, byte `nTrangBị` rồi mỗi mục: short mã vật phẩm (`-1` = trống), int số lượng, 2 UTF, ubyte `nOption` rồi mỗi option đọc bằng `cj_0.a(cN)`; tương tự cho túi (`a[]`) và rương (`b[]`); sau đó short `m` rồi `m` cặp short, 3 short, byte, int (giờ server, giây), byte; rồi client **gửi lại một gói** (mã `dN[80]`, chưa tính) mang `ht`. Cuối cùng short, byte, short (bọc `try`, có thể thiếu).
 Tên các trường (HP, MP, vàng, ngọc...) **chưa gán**: cần đối chiếu với nơi hiển thị.
 
 ## Luồng sau đăng nhập (đọc từ mã, chưa chạy)
