@@ -26,11 +26,11 @@ Bản ToolQL cũ (client Java 2.3.7 trong JavaHost + WPF) bị chủ repo đánh
 
 ## Việc còn mở
 
-- [ ] Chốt phạm vi bản đầu (sau khi phân tích client).
-- [ ] Chọn công nghệ giao diện (WPF gọn vs Avalonia), tiêu chí: nhẹ, mượt, đẹp, dễ dùng.
+- [x] Chốt phạm vi bản đầu (2026-10-28): lõi + xem màn hình + ngủ + nhận captcha; Xmap/Train để v0.2. Xem `docs/superpowers/specs/2026-10-28-v0.1-pham-vi.md`.
+- [x] Công nghệ giao diện (2026-10-28): WPF thuần, không thư viện UI nặng.
 - [ ] Cách đóng gói: framework-dependent (nhỏ, nhưng VPS phải cài .NET Runtime 8) hay self-contained trimmed (không cần cài, lớn hơn). Cả hai đều cần VC++ 2015-2022 x64 Redistributable trên VPS 2012 R2 (xem `docs/dev-setup.md` mục 6).
 - [ ] Giấy phép client/tài nguyên được dùng; quyết định trước khi push công khai.
-- [ ] Server có chấp nhận phiên bản client mà lõi mới khai báo không (cần thử bằng acc thử).
+- [ ] Server có chấp nhận phiên bản client mà lõi mới khai báo không (cần thử bằng acc thử). (xử lý ở cột mốc 0 của spec v0.1)
 - [ ] Cách đo RAM/CPU: máy ảo cho xu hướng, VPS thật cho số chốt.
 
 ## Tài liệu tham chiếu từ repo cũ

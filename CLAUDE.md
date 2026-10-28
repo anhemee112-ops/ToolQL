@@ -24,8 +24,8 @@ Viết lại từ đầu công cụ treo nhiều tài khoản Ngọc Rồng Onli
 - Ngôn ngữ **C# (.NET 8)**. Lõi **không có cửa sổ**: một tiến trình giữ mọi tài khoản (kết nối, trạng thái nhân vật/map/quái/túi, auto).
 - **Xem màn hình bắt buộc**, thường 3-4 acc cùng lúc. Chỉ **vẽ acc đang xem** (SkiaSharp); acc không xem thì **ngủ**. Lưới nhiều acc vẽ tốc độ thấp.
 - Client tham chiếu lấy từ **jar do chủ repo cung cấp**, đọc bằng **Recaf** (`github.com/Col-E/Recaf`). Giao thức và định dạng tài nguyên được ghi lại trước khi viết mã.
-- **Phạm vi bản đầu CHƯA chốt**: chốt sau khi phân tích client. Bản nháp (chỉ là đoán): quản lý acc, đăng nhập, xem màn hình, ngủ, Xmap, Train; làm sau: Bò Mộng, hồng ngọc, Capsule, cờ đen, ăn đùi gà.
-- Công nghệ giao diện quản lý **chưa chốt** (đề cử WPF gọn, không thư viện UI nặng; hoặc Avalonia). Tiêu chí: nhẹ, mượt, đẹp, dễ dùng.
+- **Phạm vi v0.1 (chốt 2026-10-28):** quản lý acc, đăng nhập, giữ trạng thái game, xem màn hình, ngủ acc không xem, nhận ra captcha. Xmap/Train và các auto khác để v0.2 trở đi (Bò Mộng, hồng ngọc, Capsule, cờ đen, ăn đùi gà). Chi tiết: `docs/superpowers/specs/2026-10-28-v0.1-pham-vi.md`.
+- Giao diện quản lý: **WPF thuần**, không thư viện UI nặng (chốt 2026-10-28). Tiêu chí: nhẹ, mượt, đẹp, dễ dùng.
 - Phát triển trong **máy ảo Windows** (khuyên Windows 10 Enterprise LTSC 2021; Claude chạy trong đó, Claude Code cần Windows 10 1809+/Server 2019+); đích chạy thật là **VPS Windows Server 2012 R2, 1 GB RAM, 1 CPU, ~10 acc/máy**, không nâng cấp Windows. Lõi nhắm `net8.0` thuần.
 - Mục tiêu gói: nhỏ hơn 50 MB (mốc tham chiếu: bộ ToolCikey 42 MB), không kèm JRE.
 
@@ -50,5 +50,5 @@ Viết lại từ đầu công cụ treo nhiều tài khoản Ngọc Rồng Onli
 ## Việc tiếp theo
 
 1. Dựng môi trường (`docs/dev-setup.md`).
-2. Khảo sát client bằng Recaf theo `docs/survey-checklist.md`, ghi vào `docs/protocol/`. Dữ liệu ID game (vật phẩm, quái, map, NPC, skill) đã có ở `docs/data/` (nguồn và lưu ý trong `docs/data/README.md`).
-3. Cùng chủ repo chốt phạm vi bản đầu và công nghệ giao diện, rồi viết spec và plan.
+2. (Đã xong phần lớn) Khảo sát client, ghi ở `docs/protocol/`; còn `game-state.md` và `naming.md`. Dữ liệu ID game (vật phẩm, quái, map, NPC, skill) đã có ở `docs/data/` (nguồn và lưu ý trong `docs/data/README.md`).
+3. Chủ repo duyệt spec v0.1, rồi làm cột mốc 0 (thử giao thức bằng acc thử, xem spec), sau đó viết plan.
