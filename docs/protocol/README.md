@@ -19,9 +19,9 @@ Thư mục này chứa kết quả đọc client. Điền khi làm theo `docs/su
 | `messages.md` | Bảng mã lệnh: mã, tên, hướng, cấu trúc trường, nơi xử lý | có (từ-mã, bảng sinh bằng script; chưa đặt tên ý nghĩa) |
 | `map.md` | Gói `-24`, `-5`, lưới ô lát, cổng, quái, NPC | có (từ-mã; gồm bảng ô lát → cờ va chạm, gói `-82`) |
 | `game-state.md` | Trạng thái cần giữ: nhân vật, map, quái, túi đồ, skill | chưa có |
-| `resources.md` | Nơi chứa và định dạng sprite, map, dữ liệu | chưa có |
+| `resources.md` | Nơi chứa và định dạng sprite, map, dữ liệu | có (từ-mã; cấu trúc byte các bảng, chưa có ý nghĩa vẽ) |
 | `render.md` | Hệ tọa độ, vòng lặp, thứ tự vẽ, hoạt ảnh | chưa có |
-| `risks.md` | Chỗ server kiểm tra client, captcha, giấy phép | có (sơ bộ) |
+| `risks.md` | Chỗ server kiểm tra client, captcha, giấy phép | có (sơ bộ; đã ghi captcha `-85`) |
 
 ## Khuôn bảng `messages.md`
 

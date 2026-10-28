@@ -43,6 +43,9 @@ Tin cậy: `từ-mã` = đọc được rõ từ mã và/hoặc chuỗi log củ
 |---|---|---|---|---|
 | -24 | S→C | thông tin map (log `MAP_INFO`) | đầu gói + thân: xem `map.md`; ô lát **không** nằm trong gói | từ-mã |
 | -23 | C→S | đổi map qua cổng dưới chân (không dữ liệu) | không | từ-mã |
+| -85 | S→C | **captcha** (ảnh + chuỗi); ToolQL chỉ nhận ra và báo "Cần captcha" | byte sub; sub 0: ushort độDài, PNG, UTF | đoán có cơ sở |
+| -85 | C→S | trả ký tự captcha (không dùng) | char | từ-mã |
+| -67 / -32 / -66 | C↔S | xin và nhận ảnh nhỏ / ảnh nền / hiệu ứng (PNG) | xem `resources.md` | từ-mã |
 | -82 | S→C | bảng ô lát → cờ va chạm (cần để dựng va chạm) | xem `map.md` | từ-mã |
 | -7 | C→S | mình di chuyển | byte cờ (1 nếu `aw.f(x/U,y/U)==0`, ngược lại 0; ý nghĩa cờ chưa rõ), short x, short y (chỉ gửi khi y đổi) | từ-mã |
 | -7 | S→C | người chơi khác di chuyển | int id, short x, short y | từ-mã |

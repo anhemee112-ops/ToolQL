@@ -14,7 +14,7 @@ Hàm gửi: `an_0.a(String, String, String, byte)` (lớp `an`), mã lệnh `an.
 | 4 | byte | chưa rõ; client truyền `bg[6]` (từ `al`) hoặc 0/1 theo cờ `bd` (từ `cK`) |
 | 5 | byte | `aM.Z`; đoán là mã ngôn ngữ (`aM` chứa bản dịch Việt, Anh, Indonesia) |
 
-Không thấy xử lý captcha ở phía client: không có chuỗi "captcha" nào trong mã đã giải chuỗi. Điều này **không chứng minh** server không đòi captcha. Nếu server đòi thì dừng và báo "Cần captcha" (rule trong `CLAUDE.md`).
+Client có cơ chế captcha qua gói `-85` (xem `risks.md`). Nếu server gửi `-85` trong khi đăng nhập hoặc treo thì dừng acc và báo "Cần captcha" (rule trong `CLAUDE.md`); không xử lý thêm.
 
 ## Gói thông tin client (đoán là `setType` / ClientInfo)
 

@@ -22,7 +22,8 @@ Nguồn: `Dragonboy250 v3.5.jar`. Mức tin cậy: **từ-mã**.
 
 ## Captcha
 
-- Không thấy xử lý captcha ở phía client (không có chuỗi "captcha"). Không chứng minh server không đòi. Gặp thì dừng và báo "Cần captcha".
+- **Có cơ chế captcha trong giao thức (gói `-85`).** Sửa nhận định trước đó ("không thấy captcha"): không có chuỗi "captcha" nhưng log của client ghi `cap char c=` ở hàm gửi. Dấu hiệu: server gửi `-85` sub 0 kèm một ảnh PNG (`ushort độDài` + byte) và một chuỗi UTF; client hiển thị ảnh, người chơi nhập, client trả lại **từng ký tự** bằng gói `-85` (một `char`). Sub 1 và 2 của `-85` đặt cờ trạng thái (`cP.bj`, `cP.aJ`). Mức tin cậy: đoán có cơ sở (từ-mã, chưa thấy trên server).
+- **Quy tắc của dự án:** không viết code đọc, giải hay né captcha. ToolQL chỉ **nhận ra** gói `-85` và dừng acc đó, báo "Cần captcha" cho người dùng. Không có đoạn nào trong tài liệu này nhằm giải nó.
 
 ## Việc cần làm tiếp cho mục này
 
