@@ -46,7 +46,7 @@ Mỗi khối là một luồng riêng, định dạng như dưới.
 
 ### `NR_part` (bảng phần thân — `cu_0`)
 
-`short n`, rồi `n` mục: `byte m`, rồi `m` phần tử: `short q`, `byte`, `byte`. Mỗi mục là một "bộ phần" ghép nhân vật; `q` có vẻ là id ảnh nhỏ (trỏ vào `NR_image`), hai byte là độ lệch. Chưa kiểm chứng.
+`short n`, rồi `n` mục: `byte loại`, rồi một **số phần tử cố định theo loại** (loại 0 → 3 phần, loại 1 → 17, loại 2 → 14, loại 3 → 2; theo `ac.<init>`), mỗi phần tử: `short q`, `byte M`, `byte ag`. Mỗi mục là một "bộ phần" ghép nhân vật; `q` là mã sprite (trỏ vào `NR_image`), `M` và `ag` là độ lệch x, y của phần đó (xem `render.md`).
 
 ### `NR_skill` (hoạt ảnh skill — `cu_0`)
 

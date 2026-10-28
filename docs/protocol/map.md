@@ -52,7 +52,7 @@ Giá trị lấy từ hằng số trong `ce`/`cO` bằng `scripts/survey/IntArra
 | 1 | 2 | `(cờ & 2) == 2` tại chân; quái cũng dùng | ô **đứng được** (sàn) — từ-mã |
 | 2 | 4 | kiểm tra tại `(x + nửaRộng, y - 1)` khi quay phải | **tường bên phải**, chặn đi sang phải — từ-mã |
 | 3 | 8 | kiểm tra tại `(x - nửaRộng - 1, y - 1)` khi quay trái | **tường bên trái**, chặn đi sang trái — từ-mã |
-| 6 | 64 | tại `(x, y - 1)`: tốc độ ngang giảm một nửa (`dA >> 1`) | vùng làm chậm — đoán |
+| 6 | 64 | tại `(x, y - 1)`: tốc độ ngang giảm một nửa (`dA >> 1`) | **nước**, làm chậm (cờ 64 cũng được dùng để vẽ mặt nước, xem `render.md`) — từ-mã |
 | 9 | 512 | `aw.b` đặt, `aw.c` xóa; `ce` đặt khi chân ở ô có cờ 1024 | cờ động do client đặt — đoán |
 | 10 | 1024 | tại `(x, y + 1)`: nếu có thì đặt 512 | ô có hiệu ứng khi đạp — đoán |
 | 13 | 8192 | tại `(x, y - chiềuCao + 24)`; nếu có và không đứng trên sàn thì chuyển sang trạng thái rơi | **chặn phía đầu/trần** — đoán |
