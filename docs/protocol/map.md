@@ -19,7 +19,47 @@ Gói `-28` sub 10 (S→C): byte sub = 10, byte `rộng`, byte `cao`, rồi `rộ
 
 - Rộng/cao được đọc bằng `readByte` có dấu rồi dùng trực tiếp: map rộng hơn 127 ô sẽ ra số âm. **Chưa rõ** server có gửi map như vậy không; ToolQL nên đọc không dấu như file cục bộ.
 
-Từ loại ô lát sang cờ va chạm: `aw.o(bộTile)` duyệt bảng `a[bộTile][j]` (danh sách mã ô lát) và `i[bộTile][j]` (cờ), rồi OR cờ vào `aw.bs[ô]`. Va chạm tra bằng `bs[(y/U) * rộng + x/U] & mặtNạ`. `U` là kích thước ô (`bt[33]`; mã `-24` dùng số 24 khi so vị trí, **có vẻ** U = 24, chưa kiểm chứng). **Chưa trích được hai bảng `a`, `i`** (lớp `aw` cần MIDP để nạp): việc cần làm trước khi cài đặt di chuyển và Xmap.
+## Ô lát → cờ va chạm (đã trích)
+
+Hai bảng này **không nằm trong jar**: server gửi trong gói **`-82`** (S→C, `cj_0.b`). Chưa thấy client gửi yêu cầu riêng; có vẻ server đẩy khi vào game (chưa rõ lúc nào, cần bắt gói).
+
+Gói `-82`:
+
+| Trường | Kiểu |
+|---|---|
+| `nBộ` | byte |
+| mỗi bộ: `nCờ` | byte |
+| mỗi cờ: `giáTrịCờ` | int |
+| | `nMã` byte |
+| | `nMã` × `mãÔLát` byte (**có dấu**) |
+
+Cách dùng (`aw.o(id)`, với `n = id - 1`, `id` = trường `bộÔLát` của `-24`): với mỗi ô của map, với mỗi cờ `j` trong bộ `n`, nếu mã ô lát của ô nằm trong danh sách `mãÔLát` của cờ `j` thì `cờÔ |= giáTrịCờ`. Nhãn `block3` đặt trên vòng lặp theo cờ, nên khi khớp thì chỉ thôi duyệt danh sách mã của cờ đó và xét **cờ kế tiếp**: một ô có thể nhận **nhiều cờ** (OR lại).
+
+Lưu ý quan trọng:
+
+- Giá trị ban đầu của `cờÔ` là 0 (mảng `aw.bs` mới tạo cùng kích thước lưới).
+- Mã trong bảng là byte **có dấu** còn mã ô lát của map là **không dấu** (0-255). Mã ≥ 128 trong bảng thành số âm nên **không bao giờ khớp** ô lát có mã ≥ 128. ToolQL phải giữ đúng quirk này nếu muốn khớp va chạm với client.
+- Cờ có thể bị sửa lúc chạy: `aw.b` OR thêm `512`, `aw.c` AND với `~512`.
+
+Kích thước ô `U` = **24** (`aw.bt[33]`, đã tính bằng mô phỏng bytecode, không còn là "có vẻ"). Ô chứa điểm `(x, y)` là `cờÔ[(y/24) * rộng + x/24]`.
+
+### Ý nghĩa các bit cờ
+
+Giá trị lấy từ hằng số trong `ce`/`cO` bằng `scripts/survey/IntArray.pl` (mô phỏng bytecode, chỉ số mảng `dG` của lớp `ce`, `fp` của `cO`, `bt` của `aw`). Hai cách tính khác nhau cho `dG[82]`, `dG[147]`, `dG[148]` khớp với biểu thức CFR tính tay.
+
+| Bit | Giá trị | Dùng ở đâu | Nghĩa (tin cậy) |
+|---|---|---|---|
+| 1 | 2 | `(cờ & 2) == 2` tại chân; quái cũng dùng | ô **đứng được** (sàn) — từ-mã |
+| 2 | 4 | kiểm tra tại `(x + nửaRộng, y - 1)` khi quay phải | **tường bên phải**, chặn đi sang phải — từ-mã |
+| 3 | 8 | kiểm tra tại `(x - nửaRộng - 1, y - 1)` khi quay trái | **tường bên trái**, chặn đi sang trái — từ-mã |
+| 6 | 64 | tại `(x, y - 1)`: tốc độ ngang giảm một nửa (`dA >> 1`) | vùng làm chậm — đoán |
+| 9 | 512 | `aw.b` đặt, `aw.c` xóa; `ce` đặt khi chân ở ô có cờ 1024 | cờ động do client đặt — đoán |
+| 10 | 1024 | tại `(x, y + 1)`: nếu có thì đặt 512 | ô có hiệu ứng khi đạp — đoán |
+| 13 | 8192 | tại `(x, y - chiềuCao + 24)`; nếu có và không đứng trên sàn thì chuyển sang trạng thái rơi | **chặn phía đầu/trần** — đoán |
+
+`nửaRộng` là trường `fl` của nhân vật (chưa tính giá trị). Chiều cao nhân vật là `eL`. Ý nghĩa bit 1 (giá trị 1) và các bit khác chưa thấy dùng.
+
+Hướng nhân vật: `bU = 1` là quay phải, `bU = -1` là quay trái (mã `-24` đặt `bU = 1` khi x gần mép trái, `-1` khi gần mép phải).
 
 ## Thân gói `-24` (và phần cuối của `-28` sub 10)
 
@@ -29,8 +69,8 @@ Từ loại ô lát sang cờ va chạm: `aw.o(bộTile)` duyệt bảng `a[bộ
 |---|---|---|
 | `mapId` (`aw.h`) | ubyte | id map |
 | `aw.N` | byte | chưa rõ (có thể hành tinh/loại map) |
-| `aw.bD` | byte | chưa rõ |
-| `aw.dO` | byte | chưa rõ; có vẻ là bộ ô lát (đưa vào `aw.o`) |
+| `bộÔLát` (`aw.bD`) | byte | **id bộ ô lát**: ảnh `/t/<id>.png`, và `aw.o(id)` dùng `id - 1` để chọn bảng cờ va chạm |
+| `aw.dO` | byte | chưa rõ |
 | bỏ | byte | đọc rồi bỏ |
 | `tênMap` (`aw.al`) | UTF | |
 | `aw.f` | byte | chưa rõ |
@@ -110,6 +150,6 @@ Khi người chơi khác vào map, gói `-5` đi trước; sau đó vị trí c�
 
 ## Việc còn lại cho phần map
 
-- Trích hai bảng `a`, `i` (ô lát → cờ va chạm) và xác nhận `U`. Cần cho di chuyển và Xmap.
+- Xác nhận bằng gói thật: lúc server gửi `-82`, ý nghĩa bit 64, 512, 1024, 8192, và các trường `chưa rõ` ở trên.
 - Tìm id map đích của từng cổng (có thể nằm trong bảng `NRmap`, định dạng chưa khảo sát).
 - Xác nhận các trường `chưa rõ` bằng gói thật.
