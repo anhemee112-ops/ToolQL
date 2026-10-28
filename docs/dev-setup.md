@@ -11,7 +11,7 @@ Nhãn độ tin cậy dùng trong tài liệu: **[đã xác minh]** = đã đố
 2. Cài **Git for Windows** và **Claude Code** vào máy ảo (mục 2), đăng nhập Claude Code.
 3. Đưa repo này vào `C:\Dev\ToolQL` (khuyên: `git clone`; hoặc chép tay).
 4. Chép client cần phân tích (file `.jar`) vào `C:\Dev\ToolQL-input\` (thư mục **ngoài repo**, không commit).
-5. (Tùy chọn) Tài khoản thử: tạo `%USERPROFILE%\.config\toolql\test-account.env` gồm hai dòng `TOOLQL_TEST_USER=...` và `TOOLQL_TEST_PASS=...`. Không đưa vào repo, log hay tài liệu.
+5. (Tùy chọn) Tài khoản thử: tạo `%USERPROFILE%\.config\toolql\test-account.env` gồm ba dòng `TOOLQL_TEST_USER=...`, `TOOLQL_TEST_PASS=...` và `TOOLQL_TEST_SERVER=...` (tên server của acc, ví dụ `dragon1`; danh sách server cũ ở `docs/reference/README.md`). Không đưa vào repo, log hay tài liệu.
 
 ## 1. Chạy script kiểm tra và cài công cụ
 
@@ -42,6 +42,7 @@ Script in bảng `OK / THIẾU / ĐÃ CÀI / LỖI`. Nó không sửa repo, khô
 3. `java -jar C:\Dev\Tools\Recaf\<tên-launcher>.jar`, chọn JDK vừa cài khi launcher hỏi, để launcher kéo JavaFX và Recaf.
 4. Hoặc chạy tay không qua launcher: tải `recaf.jar` và 4 gói JavaFX (base, graphics, controls, media) vào thư mục `dependencies` cạnh nó, rồi `java -cp "recaf.jar;dependencies/*" software.coley.recaf.Main` (trên Windows dấu `;`).
 5. Launcher có lệnh CLI `compatibility` để kiểm tra môi trường **[đã xác minh]**.
+6. Mở thẳng một jar: `run` của launcher không nhận tham số, nên chạy tay `java -cp "recaf.jar;dependencies/*" software.coley.recaf.Main -i <jar>` trong `%APPDATA%\Recaf`. Đã thử trên Java 25 và chạy được; chi tiết trong `docs/setup-log.md`.
 
 ## 3. Kiểm tra môi trường đã đủ
 
