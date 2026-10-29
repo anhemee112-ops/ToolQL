@@ -29,7 +29,7 @@ Bộ xử lý gói: `cj_0.b(cN)` (dòng 1999), một `switch` trên mã lệnh v
 - `-31`: danh sách vật phẩm (số lượng short, mỗi mục short, byte, short, short, rồi mảng byte cặp).
 - `-26`: nhận một UTF thông báo (`cs_0.l`).
 
-Bảng mã lệnh đầy đủ sẽ ghi ở `messages.md` khi khảo sát tiếp.
+Bảng mã lệnh và luồng sau đăng nhập (`-28` sub 4, tải bảng dữ liệu, `-30` sub 0) đã ghi ở `messages.md`.
 
 ## Chưa biết
 

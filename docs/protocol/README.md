@@ -15,8 +15,8 @@ Thư mục này chứa kết quả đọc client. Điền khi làm theo `docs/su
 | `naming.md` | Quy tắc đổi tên lớp/hàm đã đặt trong Recaf, ánh xạ tên gốc ↔ tên mới | chưa có |
 | `servers.md` | Danh sách server, cổng, IP dự phòng trong client | có (từ-mã) |
 | `transport.md` | Socket, khung gói, kiểu số, khóa XOR, ping, nối lại | có (từ-mã, chưa thử) |
-| `login.md` | Trình tự đăng nhập từng gói, trường, lỗi server trả | một phần (gói gửi đăng nhập; chưa có gói trả) |
-| `messages.md` | Bảng mã lệnh: mã, tên, hướng, cấu trúc trường, nơi xử lý | chưa có |
+| `login.md` | Trình tự đăng nhập từng gói, trường, lỗi server trả | một phần (gói gửi + luồng sau đăng nhập từ-mã; chưa rõ gói báo lỗi) |
+| `messages.md` | Bảng mã lệnh: mã, tên, hướng, cấu trúc trường, nơi xử lý | có (từ-mã, bảng sinh bằng script; chưa đặt tên ý nghĩa) |
 | `game-state.md` | Trạng thái cần giữ: nhân vật, map, quái, túi đồ, skill | chưa có |
 | `resources.md` | Nơi chứa và định dạng sprite, map, dữ liệu | chưa có |
 | `render.md` | Hệ tọa độ, vòng lặp, thứ tự vẽ, hoạt ảnh | chưa có |
