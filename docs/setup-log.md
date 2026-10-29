@@ -39,6 +39,27 @@ C:\Dev\Tools\jdk-25\bin\java -cp "recaf.jar;dependencies/*" software.coley.recaf
 - Log xác nhận: `Reading input from ZIP container 'Dragonboy250 v3.5.jar'`, không có lỗi. **Chưa kiểm chứng bằng mắt** rằng cây lớp hiện đúng trên cửa sổ.
 - Cảnh báo `sun.misc.Unsafe` / `Unsupported JavaFX configuration` trong log là vô hại (JavaFX chạy từ classpath).
 
+## Xuất mã dịch ngược (không cần bấm GUI)
+
+`recaf.jar` có sẵn CFR, Vineflower và Procyon. Dùng CFR trực tiếp, xuất ra **ngoài repo** (`C:\Dev\ToolQL-decomp`, ~2 phút 20 giây, 224 file, 3,9 MB):
+
+```powershell
+$J = "C:\Dev\Tools\jdk-25\bin"
+$jar = "C:\Dev\ToolQL-input\Dragonboy250 v3.5.jar"
+& $J\java -cp "$env:APPDATA\Recaf\recaf.jar" org.benf.cfr.reader.Main $jar --outputdir C:\Dev\ToolQL-decomp\cfr --silent true
+# giải chuỗi bị mã hóa Y.b("...") -> thư mục cfr-dec
+& $J\javac -encoding UTF-8 -d C:\Dev\ToolQL-decomp\tool scripts\survey\DecodeStrings.java scripts\survey\DumpConst.java
+& $J\java -cp C:\Dev\ToolQL-decomp\tool DecodeStrings $jar C:\Dev\ToolQL-decomp\cfr C:\Dev\ToolQL-decomp\cfr-dec
+# in hằng số tĩnh của lớp (ví dụ khóa, mã lệnh)
+& $J\java -cp C:\Dev\ToolQL-decomp\tool DumpConst $jar nro.bV nro.ao
+```
+
+- Kết quả giải chuỗi: 4712 chuỗi, 0 lỗi, không còn `Y.b(` sót.
+- `DumpConst` chỉ nạp được lớp không phụ thuộc MIDP (`nro.bV`, `nro.ao`, `nro.an`, `nro.bd`, `nro.cN`). Lớp phụ thuộc `javax.microedition.*` (như `nro.cj`, `nro.hero69`) báo `NoClassDefFoundError`.
+- Hai công cụ chỉ giải chuỗi tĩnh và đọc hằng số, **không** chạy game, không kết nối mạng.
+- Tên file CFR có đuôi `_0` khi trùng tên không phân biệt hoa/thường (`ao` → `ao_0.java`); tên thật trong jar không có đuôi.
+- Kết quả khảo sát ghi ở `docs/protocol/` (`transport.md`, `servers.md`, `login.md`, `risks.md`).
+
 ## Tài khoản thử
 
 File: `%USERPROFILE%\.config\toolql\test-account.env` (`C:\Users\dev\.config\toolql\test-account.env`). Thư mục `.config` ẩn tên bắt đầu bằng dấu chấm nên Explorer có thể khó thấy.
